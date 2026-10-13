@@ -1,79 +1,143 @@
-# Email Analysis & Prioritization
+# 📧 MailSentinel AI — Email Analysis & Prioritization
 
-This project analyzes the supplied 40 synthetic email PDFs and produces a consistent result for each email:
+MailSentinel AI is a Python-based web application that analyzes PDF email documents to identify suspicious content, assess sender validity, and prioritize emails based on urgency, business impact, security risk, and required action.
 
-- Spam / Not Spam
-- Valid / Invalid sender information
-- High / Medium / Low importance
-- Evidence-based reason for every classification
+The application provides explainable analysis results through an interactive Streamlit dashboard.
 
-The app is local and explainable. It uses PDF text extraction plus transparent rules for suspicious content, sender validity, urgency, business impact, and action required. It does not call an external email service or LLM.
+**🚀 Live Demo:** [MailSentinel AI](https://mailsentinel-ai-im2xyumlkwv99zkdanesjv.streamlit.app/)
 
-## Run
+**📂 GitHub Repository:** [MailSentinel-AI](https://github.com/Shrutee29/MailSentinel-AI)
 
-From this folder:
+---
 
-```powershell
-C:\Users\shrut\AppData\Local\Programs\Python\Python312\python.exe -m pip install -r requirements.txt
-C:\Users\shrut\AppData\Local\Programs\Python\Python312\python.exe -m streamlit run app.py
+## ✨ Features
+
+- **PDF Email Analysis:** Analyze email documents from a dataset folder or upload PDF files.
+- **Spam and Suspicious Content Detection:** Identify potentially promotional or suspicious emails.
+- **Sender Validation:** Assess sender addresses and contextual indicators.
+- **Email Prioritization:** Evaluate urgency, business impact, security risk, financial impact, and required action.
+- **Explainable Results:** Display reasons supporting email classifications and importance levels.
+- **Interactive Dashboard:** View email summaries, classification results, and analysis statistics.
+- **Follow-up Assistance:** Generate follow-up suggestions based on email context.
+- **CSV Export:** Export analysis results for further review.
+
+## 🛠️ Tech Stack
+
+- Python
+- Streamlit
+- Pandas
+- PDF processing libraries
+- Pytest
+- Git and GitHub
+- Streamlit Community Cloud
+
+## 📁 Project Structure
+
+```text
+MailSentinel-AI/
+├── app.py
+├── email_analyzer.py
+├── test_email_analyzer.py
+├── requirements.txt
+├── README.md
+├── classification_labels_template.csv
+├── .gitignore
+├── .streamlit/
+│   └── config.toml
+└── Emails_Dataset/
+    └── PDF email documents
 ```
 
-The app starts with the dataset folder pre-filled:
+### Main Files
 
-`C:\Users\shrut\Downloads\Emails_Dataset-20261010T064922Z-1-001\Emails_Dataset`
+- `app.py` — Streamlit application and dashboard.
+- `email_analyzer.py` — Email analysis and classification logic.
+- `test_email_analyzer.py` — Automated tests.
+- `requirements.txt` — Project dependencies.
+- `classification_labels_template.csv` — Classification-label template.
+- `Emails_Dataset/` — Sample PDF email dataset.
+- `.streamlit/config.toml` — Streamlit configuration.
 
-You can also upload a different set of PDF files from the sidebar. Results can be downloaded as CSV.
+## ⚙️ Installation and Setup
 
-## Tests
+### Prerequisites
 
-```powershell
-C:\Users\shrut\AppData\Local\Programs\Python\Python312\python.exe -m pytest -q
+- Python installed on your system.
+- Git installed on your system.
+- Visual Studio Code or another Python IDE.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Shrutee29/MailSentinel-AI.git
+cd MailSentinel-AI
 ```
 
-## Accuracy review
+### 2. Create a virtual environment
 
-The supplied PDFs do not include ground-truth labels, so the application does not
-claim an accuracy percentage from predictions alone. Use
-[classification_labels_template.csv](./classification_labels_template.csv) to
-manually review each email and fill in:
+For Windows:
 
-- `expected_spam_status`: `Spam` or `Not Spam`
-- `expected_validity`: `Valid` or `Invalid`
-- `expected_importance`: `High`, `Medium`, or `Low`
-- `review_notes`: evidence supporting the label
+```powershell
+python -m venv .venv
+```
 
-The `evaluate_labels` function in `email_analyzer.py` computes accuracy only for
-rows with all three expected labels completed. Blank rows are excluded from the
-denominator, so partial review cannot produce a misleading accuracy score.
+Activate it:
 
-## Sender context
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
 
-Sender `validity` means only that the address has a structurally valid email
-format. `sender_identity` remains `Unverified` unless the observable message
-context shows a possible mismatch. The analyzer reports, without asserting
-spoofing:
+### 3. Install dependencies
 
-- a Reply-To domain different from the sender domain;
-- a high-risk display name such as Support, Security, Billing, or Account that
-  does not align with the sender domain;
-- missing or malformed sender addresses.
+```bash
+python -m pip install -r requirements.txt
+```
 
-External identity, domain reputation, and SPF/DKIM/DMARC cannot be verified from
-the supplied PDF exports.
+### 4. Run the application
 
-The dashboard exposes these Step 3 fields in the **Inspect an email** section:
-`Reply-To`, `Sender identity`, and `Sender context`.
+```bash
+python -m streamlit run app.py
+```
 
-## Importance scoring
+Open the local URL shown in the terminal, usually:
 
-Importance is assigned from combined evidence rather than a single urgency word:
+`http://localhost:8501`
 
-- **High** requires a critical incident or a combination of consequence
-  (security or financial impact) and urgency/action required.
-- **Medium** covers actionable, financial, urgent, or business-relevant messages
-  without confirmed critical consequences.
-- **Low** is used when no strong urgency, business impact, security risk, or
-  required action is present.
+## 📊 How to Use
 
-This prevents newsletter language such as “urgent” from becoming High priority
-without evidence of operational, security, financial, or customer impact.
+1. Launch the application.
+2. Select the dataset folder containing PDF email documents or upload PDF emails.
+3. Click **Analyze emails**.
+4. Review the dashboard summary and analysis results.
+5. Examine spam status, sender validity, email importance, and the associated explanations.
+6. Use the available follow-up and export features where applicable.
+
+## 🧪 Testing
+
+Run the automated test suite:
+
+```bash
+python -m pytest -v
+```
+
+The project has reported 15 passing tests and successful processing of 40 sample PDF emails in its validation output.
+
+## 🔒 Privacy
+
+The application processes email documents within the environment where it runs. When using the hosted Streamlit Cloud version, uploaded documents are processed in the hosted environment rather than exclusively on the user's computer.
+
+Avoid uploading confidential emails to a public deployment unless its data handling and access controls are appropriate.
+
+## 🎯 Project Objective
+
+MailSentinel AI aims to simplify email review by combining suspicious-content detection, sender validation, explainable classification, and importance-based prioritization in one interface.
+
+## 👩‍💻 Author
+
+**Shrutee Gonnade**
+
+- GitHub: [Shrutee29](https://github.com/Shrutee29)
+
+## 📄 License
+
+No open-source license has been specified for this repository. Add a `LICENSE` file if you decide to distribute the project under an open-source license.
