@@ -11,9 +11,9 @@ from email_analyzer import (
 )
 
 
-DEFAULT_DATASET = Path(
-    r"C:\Users\shrut\Downloads\Emails_Dataset-20261010T064922Z-1-001\Emails_Dataset"
-)
+
+DEFAULT_DATASET = Path(__file__).resolve().parent / "Emails_Dataset"
+
 
 st.set_page_config(page_title="Email Analysis & Prioritization", page_icon="✉️", layout="wide")
 st.title("✉️ Email Analysis & Prioritization")
